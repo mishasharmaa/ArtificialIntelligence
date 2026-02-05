@@ -319,16 +319,6 @@ class CornersProblem(search.SearchProblem):
         #util.raiseNotDefined()
 
     def getSuccessors(self, state: Any):
-        """
-        Returns successor states, the actions they require, and a cost of 1.
-
-         As noted in search.py:
-            For a given state, this should return a list of triples, (successor,
-            action, stepCost), where 'successor' is a successor to the current
-            state, 'action' is the action required to get there, and 'stepCost'
-            is the incremental cost of expanding to that successor
-        """
-
         successors = []
         (x, y), visited = state
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
@@ -341,17 +331,17 @@ class CornersProblem(search.SearchProblem):
 
             "*** YOUR CODE HERE *** (Q5)"
             dx, dy = Actions.directionToVector(action)
-        nextx, nexty = int(x + dx), int(y + dy)
+            nextx, nexty = int(x + dx), int(y + dy)
 
-        if not self.walls[nextx][nexty]:
-            nextVisited = list(visited)
-            nextPos = (nextx, nexty)
+            if not self.walls[nextx][nexty]:
+                nextVisited = list(visited)
+                nextPos = (nextx, nexty)
 
-            if nextPos in self.corners:
-                index = self.corners.index(nextPos)
-                nextVisited[index] = True
+                if nextPos in self.corners:
+                    index = self.corners.index(nextPos)
+                    nextVisited[index] = True
 
-            successors.append(((nextPos, tuple(nextVisited)), action, 1))
+                successors.append(((nextPos, tuple(nextVisited)), action, 1))
 
 
         self._expanded += 1 # DO NOT CHANGE
