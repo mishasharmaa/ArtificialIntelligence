@@ -88,9 +88,13 @@ def depthFirstSearch(problem: SearchProblem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE *** (Q1)"
+    # Depth-First Search (Graph Search Version)
+    # Using a Stack (LIFO) to explore deepest nodes first.
+    
+    
     stack = util.Stack()
     start = problem.getStartState()
-    stack.push((start, [], set()))
+    stack.push((start, [], set())) # Each stack element
 
     visited = set()
 
@@ -117,9 +121,12 @@ def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     
     "*** YOUR CODE HERE *** (Q2)"
+    # Breadth-First Search (Graph Search Version)
+    # Using a Queue (FIFO) to explore shallowest nodes first.
+    
     queue = util.Queue()
     start = problem.getStartState()
-    queue.push((start, []))
+    queue.push((start, [])) # Each stack element
 
     visited = set()
     visited.add(start)
@@ -142,11 +149,14 @@ def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
     
     "*** YOUR CODE HERE *** (Q3)"
+    # Uniform Cost Search (Graph Search Version)
+    # Expands node with lowest total path cost g(n)
+    
     pq = util.PriorityQueue()
     start = problem.getStartState()
     pq.push((start, [], 0), 0)
 
-    visited = {}
+    visited = {} # Stores best known cost for each state
 
     while not pq.isEmpty():
         state, path, cost_so_far = pq.pop()
@@ -178,11 +188,16 @@ def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     
     "*** YOUR CODE HERE *** (Q4)"
+    # A* Search (Graph Search Version)
+    # Priority = g(n) + h(n)
+    
     pq = util.PriorityQueue()
     start = problem.getStartState()
+    
+    # Push start with priority equal to heuristic
     pq.push((start, [], 0), heuristic(start, problem))
 
-    visited = {}
+    visited = {} # Stores best g(n) cost found so far
 
     while not pq.isEmpty():
         state, path, cost_so_far = pq.pop()

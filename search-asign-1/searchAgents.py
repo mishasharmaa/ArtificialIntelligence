@@ -330,6 +330,8 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE *** (Q5)"
+            # (currentPosition, visitedCornersTuple)
+            
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
 
@@ -378,6 +380,10 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE *** (Q6)"
+    # Heuristic strategy:
+    # Greedy sum of Manhattan distances to unvisited corners.
+    # Always non-negative, admissible, and consistent.
+    
     position, visited = state
     corners = problem.corners
 
