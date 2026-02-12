@@ -1,4 +1,17 @@
 # Artificial Intelligence Course
 
 ## Pacman Search Algorithms – Assignment 1 
-The course discusses constraint satisfaction problems using some case studies. We study planning through Markov decision process and discuss how an agent can use the past experience to make a better decision through the reinforcement learning framework. The basic ideas of reasoning under uncertainty and Bayesian networks are covered.
+### Overview
+
+This project implements classical search algorithms to control Pacman in a maze environment. The objective is to design and apply general search strategies to solve different navigation problems.
+
+The following algorithms were implemented:
+
+- Depth-First Search (DFS)
+- Breadth-First Search (BFS)
+- Uniform Cost Search (UCS)
+- A* Search
+- Corners Problem (Multi-goal search)
+- Custom Consistent Heuristic for Corners Problem
+
+Only the sections marked `*** YOUR CODE HERE ***` were modified as required by the assignment.
