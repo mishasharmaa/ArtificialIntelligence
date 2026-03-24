@@ -60,12 +60,27 @@ class ValueIterationAgent(ValueEstimationAgent):
         self.runValueIteration()
 
     def runValueIteration(self):
-        """
-          Run the value iteration algorithm. Note that in standard
-          value iteration, V_k+1(...) depends on V_k(...)'s.
-        """
-        "*** YOUR CODE HERE (1) ***"
-        util.raiseNotDefined()
+        # Loop for the number of iterations specified
+        for i in range(self.iterations):
+            # Create a new counter to store updated values 
+            newValues = util.Counter()
+
+            # Go through every state in the MDP
+            for state in self.mdp.getStates():
+                if self.mdp.isTerminal(state):
+                    newValues[state] = 0
+                else:
+                    actions = self.mdp.getPossibleActions(state)
+                    q_values = []
+
+                    for action in actions:
+                        q = self.computeQValueFromValues(state, action)
+                        q_values.append(q)
+
+                    if len(q_values) > 0:
+                        newValues[state] = max(q_values)
+
+            self.values = newValues
 
 
 
@@ -76,24 +91,34 @@ class ValueIterationAgent(ValueEstimationAgent):
         return self.values[state]
 
     def computeQValueFromValues(self, state, action):
-        """
-          Compute the Q-value of action in state from the
-          value function stored in self.values.
-        """
-        "*** YOUR CODE HERE (2) ***"
-        util.raiseNotDefined()
+        # Initialize Q-value
+        q = 0
+        
+        # Loop over possible next states and their probabilities
+        for nextState, prob in self.mdp.getTransitionStatesAndProbs(state, action):
+            reward = self.mdp.getReward(state, action, nextState)
+            
+            # Bellman equation:
+            # Q(s,a) += P(s'|s,a) * [reward + discount * V(s')]
+            q += prob * (reward + self.discount * self.values[nextState])
+        return q
 
     def computeActionFromValues(self, state):
-        """
-          The policy is the best action in the given state
-          according to the values currently stored in self.values.
+        if self.mdp.isTerminal(state):
+            return None
 
-          You may break ties any way you see fit.  Note that if
-          there are no legal actions, which is the case at the
-          terminal state, you should return None.
-        """
-        "*** YOUR CODE HERE (3) ***"
-        util.raiseNotDefined()
+        actions = self.mdp.getPossibleActions(state)
+
+        best_action = None
+        best_value = float('-inf')
+
+        for action in actions:
+            q = self.computeQValueFromValues(state, action)
+            if q > best_value:
+                best_value = q
+                best_action = action
+
+        return best_action
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
