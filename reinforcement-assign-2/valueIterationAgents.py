@@ -127,4 +127,4 @@ class ValueIterationAgent(ValueEstimationAgent):
         return self.computeActionFromValues(state) # Return the action chosen by the policy (no exploration)
 
     def getQValue(self, state, action):
-        return self.computeQValueFromValues(state, action) # Return Q(s, a) based on current value estimates
+        return self.computeQValueFromValues(state, action) # Return Q(s, a) based on current value estimates 
