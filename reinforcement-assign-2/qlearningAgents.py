@@ -11,13 +11,10 @@
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
 
-
 from game import *
 from learningAgents import ReinforcementAgent
 from featureExtractors import *
-
 import gridworld
-
 import random,util,math
 import copy
 
@@ -42,7 +39,7 @@ class QLearningAgent(ReinforcementAgent):
         "You can initialize Q-values here..."
         ReinforcementAgent.__init__(self, **args)
 
-        self.qvalue = util.Counter()
+        self.qvalue = util.Counter() # Stores Q(s, a)
 
     def getQValue(self, state, action):
         return self.qvalue[(state, action)]
@@ -53,7 +50,7 @@ class QLearningAgent(ReinforcementAgent):
         if len(legalActions) == 0:
             return 0.0
 
-        return max([self.getQValue(state, a) for a in legalActions])
+        return max([self.getQValue(state, a) for a in legalActions]) # Return the maximum Q-value over all legal actions
 
     def computeActionFromQValues(self, state):
         legalActions = self.getLegalActions(state)
@@ -64,7 +61,7 @@ class QLearningAgent(ReinforcementAgent):
         best_value = float('-inf')
         best_actions = []
 
-        for action in legalActions:
+        for action in legalActions: # Find all actions with the highest Q-value
             q = self.getQValue(state, action)
 
             if q > best_value:
@@ -73,7 +70,7 @@ class QLearningAgent(ReinforcementAgent):
             elif q == best_value:
                 best_actions.append(action)
 
-        return random.choice(best_actions)
+        return random.choice(best_actions) # Random tie-breaking
 
     def getAction(self, state):
         """
@@ -89,7 +86,7 @@ class QLearningAgent(ReinforcementAgent):
         
         legalActions = self.getLegalActions(state)
             # if no actions (terminal state)
-        if len(legalActions) == 0:
+        if len(legalActions) == 0: 
             return None
 
         # epsilon-greedy: explore or exploit
@@ -100,13 +97,13 @@ class QLearningAgent(ReinforcementAgent):
         
 
     def update(self, state, action, nextState, reward: float):
-       current_q = self.getQValue(state, action)
-       next_value = self.computeValueFromQValues(nextState)
+       current_q = self.getQValue(state, action) # Current Q-value
+       next_value = self.computeValueFromQValues(nextState) # Best possible value from next state
 
-       sample = reward + self.discount * next_value
+       sample = reward + self.discount * next_value # Sample (target value)
 
-       self.qvalue[(state, action)] = (1 - self.alpha) * current_q + self.alpha * sample
-
+       self.qvalue[(state, action)] = (1 - self.alpha) * current_q + self.alpha * sample # Q-learning update
+ 
 
 class PacmanQAgent(QLearningAgent):
     "Exactly the same as QLearningAgent, but with different default parameters"

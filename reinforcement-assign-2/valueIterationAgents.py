@@ -71,18 +71,18 @@ class ValueIterationAgent(ValueEstimationAgent):
                     newValues[state] = 0
                 else:
                     actions = self.mdp.getPossibleActions(state)
+                    # Compute Q-values for all possible actions
                     q_values = []
 
                     for action in actions:
                         q = self.computeQValueFromValues(state, action)
                         q_values.append(q)
 
+                    # Update state value with the maximum Q-value
                     if len(q_values) > 0:
                         newValues[state] = max(q_values)
 
             self.values = newValues
-
-
 
     def getValue(self, state):
         """
@@ -99,7 +99,6 @@ class ValueIterationAgent(ValueEstimationAgent):
             reward = self.mdp.getReward(state, action, nextState)
             
             # Bellman equation:
-            # Q(s,a) += P(s'|s,a) * [reward + discount * V(s')]
             q += prob * (reward + self.discount * self.values[nextState])
         return q
 
@@ -112,6 +111,7 @@ class ValueIterationAgent(ValueEstimationAgent):
         best_action = None
         best_value = float('-inf')
 
+        # Find the action with the highest Q-value
         for action in actions:
             q = self.computeQValueFromValues(state, action)
             if q > best_value:
@@ -121,11 +121,10 @@ class ValueIterationAgent(ValueEstimationAgent):
         return best_action
 
     def getPolicy(self, state):
-        return self.computeActionFromValues(state)
+        return self.computeActionFromValues(state) # Return the optimal policy at a state.
 
     def getAction(self, state):
-        "Returns the policy at the state (no exploration)."
-        return self.computeActionFromValues(state)
+        return self.computeActionFromValues(state) # Return the action chosen by the policy (no exploration)
 
     def getQValue(self, state, action):
-        return self.computeQValueFromValues(state, action)
+        return self.computeQValueFromValues(state, action) # Return Q(s, a) based on current value estimates
